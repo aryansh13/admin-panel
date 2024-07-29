@@ -38,24 +38,6 @@ class AuthController extends Controller
         return view('auth/login');
     }
 
-    public function loginAction(Request $request)
-    {
-        Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
-        ])->validate();
-
-        if (!Auth::attempt($request->only('username', 'password'), $request->boolean('remember'))) {
-            throw ValidationException::withMessages([
-                'username' => trans('auth.failed')
-            ]);
-        }
-
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard');
-    }
-
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
